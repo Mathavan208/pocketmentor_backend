@@ -12,25 +12,9 @@ const app = express();
 // In your backend (e.g., server.js or app.js)
 const cors = require('cors');
 
-const allowedOrigins = [
-  'http://localhost:5173', // Local development
-  'https://pocketmentor-frontend.onrender.com' // Your deployed frontend
-];
 
-app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or curl)
-    if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    } else {
-      return callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true, // Critical for cookies
-  optionsSuccessStatus: 200 // For legacy browsers
-}));
+
+app.use(cors());
 // Init middleware
 app.use(express.json({ extended: false }));
 
