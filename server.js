@@ -16,6 +16,11 @@ const app = express();
 
 
 const cors=require('cors');
+const allowedOrigins = [
+  'http://localhost:5173', // for local dev
+  'https://pocketmentor-frontend.onrender.com' // deployed frontend
+];
+
 app.use(cors({
   origin: allowedOrigins,
   credentials: true
