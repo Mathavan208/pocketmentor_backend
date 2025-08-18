@@ -16,7 +16,10 @@ const app = express();
 
 
 const cors=require('cors');
-app.use(cors());
+app.use(cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
 // Init middleware
 app.use(express.json({ extended: false }));
 
