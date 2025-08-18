@@ -12,7 +12,10 @@ connectDB();
 const app = express();
 
 // Init middleware
-app.use(cors());
+app.use(cors({
+    origin: 'https://pocketmentor-frontend.onrender.com/api', // Replace with your deployed frontend URL
+  credentials: true // Important if using cookies/sessions
+}));
 app.use(express.json({ extended: false }));
 
 // Define Routes
