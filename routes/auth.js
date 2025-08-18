@@ -6,8 +6,8 @@ const { protect } = require('../middleware/auth');
 const Enrollment = require('../models/Enrollment');
 const User = require('../models/User');
 
-router.post('/register', register);
-router.post('/login', login);
+router.post('/register',protect, register);
+router.post('/login', protect, login);
 router.get('/profile', protect, getProfile);
 
 // Add enrollment routes for users
