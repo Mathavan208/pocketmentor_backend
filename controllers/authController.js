@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken');
 // @access  Public
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
-
   try {
     const userExists = await User.findOne({ email });
 
@@ -32,6 +31,7 @@ exports.register = async (req, res) => {
       res.status(400).json({ message: 'Invalid user data' });
     }
   } catch (error) {
+    
     res.status(500).json({ message: 'Server error' });
   }
 };
