@@ -14,7 +14,32 @@ const cors = require('cors');
 
 
 
-app.use(cors());
+
+const allowedOrigins = [
+  'http://localhost:5173', // Local development
+  'https://pocketmentor-frontend.onrender.com' // Deployed frontend
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or curl)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true, // Critical for cookies
+  optionsSuccessStatus: 200 // For legacy browsers
+}));
+
+// Handle preflight requests
+app.options('*', cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
 // Init middleware
 app.use(express.json({ extended: false }));
 
