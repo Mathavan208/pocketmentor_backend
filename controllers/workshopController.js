@@ -1,6 +1,6 @@
 const Workshop = require('../models/Workshop');
 const Enrollment = require('../models/Enrollment');
-
+const User=require('../models/User');
 // @desc    Get all workshops
 // @route   GET /api/workshops
 // @access  Public
