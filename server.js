@@ -31,30 +31,30 @@ if (!GEMINI_API_KEY) {
 // Gemini route
 app.post('/api/gemini/chat', async (req, res) => {
   try {
-    const { prompt } = req.body; // expecting a string from frontend
+    const { messagesFinal } = req.body; // expecting a string from frontend
 
-    const apiResponse = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-goog-api-key': GEMINI_API_KEY, // required by Gemini
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                { text: prompt }
-              ]
-            }
-          ]
-        }),
-      }
-    );
+    // const apiResponse = await fetch(
+    //   `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
+    //   {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       'X-goog-api-key': GEMINI_API_KEY, // required by Gemini
+    //     },
+    //     body: JSON.stringify({
+    //       contents: [
+    //         {
+    //           parts: [
+    //             { text: messagesFinal }
+    //           ]
+    //         }
+    //       ]
+    //     }),
+    //   }
+    // );
 
-    const data = await apiResponse.json();
-    res.json(data);
+    // const data = await apiResponse.json();
+    res.json(messagesFinal);
   } catch (err) {
     console.error('Gemini API error:', err);
     res.status(500).json({ error: 'Error communicating with Gemini API' });
