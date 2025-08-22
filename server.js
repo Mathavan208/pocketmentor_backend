@@ -31,9 +31,9 @@ if (!GEMINI_API_KEY) {
 // Gemini route
 app.post('/api/gemini/chat', async (req, res) => {
   try {
-    const { messagesFinal } = req.body; // expecting a string from frontend
-  if (typeof messagesFinal !== "string") {
-      messagesFinal = JSON.stringify(messagesFinal);
+    const { prompt } = req.body; // expecting a string from frontend
+  if (typeof prompt !== "string") {
+      prompt = JSON.stringify(prompt);
     }
     const apiResponse = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
@@ -41,14 +41,14 @@ app.post('/api/gemini/chat', async (req, res) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-goog-api-key': GEMINI_API_KEY,
+          
           // required by Gemini
         },
         body: JSON.stringify({
           contents: [
             {
               parts: [
-                { text: messagesFinal }
+                { text: prompt }
               ]
             }
           ]
