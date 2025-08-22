@@ -32,7 +32,9 @@ if (!GEMINI_API_KEY) {
 app.post('/api/gemini/chat', async (req, res) => {
   try {
     const { messagesFinal } = req.body; // expecting a string from frontend
-
+  if (typeof messagesFinal !== "string") {
+      messagesFinal = JSON.stringify(messagesFinal);
+    }
     const apiResponse = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
       {
