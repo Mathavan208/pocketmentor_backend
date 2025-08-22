@@ -22,23 +22,45 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json({ extended: false }));
-app.post('/api/perplexity/chat', async (req, res) => {
+const GEMINI_API_KEY = process.env.PERPLEXITY_API_KEY;
+if (!PERPLEXITY_API_KEY) {
+  console.error('Missing PERPLEXITY_API_KEY environment variable');
+  process.exit(1);
+}
+
+// Gemini route
+app.post('/api/gemini/chat', async (req, res) => {
   try {
-    const apiResponse = await fetch('https://api.perplexity.ai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${PERPLEXITY_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(req.body),
-    });
+    const { prompt } = req.body; // expecting a string from frontend
+
+    const apiResponse = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-goog-api-key': GEMINI_API_KEY, // required by Gemini
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                { text: prompt }
+              ]
+            }
+          ]
+        }),
+      }
+    );
 
     const data = await apiResponse.json();
     res.json(data);
   } catch (err) {
-    res.status(500).json({ error: 'Error communicating with Perplexity API' });
+    console.error('Gemini API error:', err);
+    res.status(500).json({ error: 'Error communicating with Gemini API' });
   }
 });
+
 // Define Routes
 app.use('/api/users', require('./routes/auth'));
 app.use('/api/courses', require('./routes/courses'));
