@@ -22,7 +22,23 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json({ extended: false }));
+app.post('/api/perplexity/chat', async (req, res) => {
+  try {
+    const apiResponse = await fetch('https://api.perplexity.ai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${PERPLEXITY_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(req.body),
+    });
 
+    const data = await apiResponse.json();
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: 'Error communicating with Perplexity API' });
+  }
+});
 // Define Routes
 app.use('/api/users', require('./routes/auth'));
 app.use('/api/courses', require('./routes/courses'));

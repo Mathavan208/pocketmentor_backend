@@ -18,7 +18,7 @@ router.get('/enrollments', protect, async (req, res) => {
     
     res.json({
       success: true,
-      data: enrollments
+      data: enrollments,
     });
   } catch (error) {
     console.error('Get user enrollments error:', error);
@@ -43,7 +43,7 @@ router.put('/profile', protect, async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role
+        role: user.role,
       });
     } else {
       return res.status(404).json({ message: 'User not found' });
