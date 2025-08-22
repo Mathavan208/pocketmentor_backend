@@ -39,7 +39,7 @@ app.post('/api/gemini/chat', async (req, res) => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-goog-api-key': GEMINI_API_KEY, // required by Gemini
+          // required by Gemini
         },
         body: JSON.stringify({
           contents: [
