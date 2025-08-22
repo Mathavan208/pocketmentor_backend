@@ -23,7 +23,7 @@ app.use(cors({
 }));
 app.use(express.json({ extended: false }));
 const GEMINI_API_KEY = process.env.PERPLEXITY_API_KEY;
-if (!PERPLEXITY_API_KEY) {
+if (!GEMINI_API_KEY) {
   console.error('Missing PERPLEXITY_API_KEY environment variable');
   process.exit(1);
 }
