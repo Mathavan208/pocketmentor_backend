@@ -33,28 +33,28 @@ app.post('/api/gemini/chat', async (req, res) => {
   try {
     const { messagesFinal } = req.body; // expecting a string from frontend
 
-    // const apiResponse = await fetch(
-    //   `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
-    //   {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       'X-goog-api-key': GEMINI_API_KEY, // required by Gemini
-    //     },
-    //     body: JSON.stringify({
-    //       contents: [
-    //         {
-    //           parts: [
-    //             { text: messagesFinal }
-    //           ]
-    //         }
-    //       ]
-    //     }),
-    //   }
-    // );
+    const apiResponse = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-goog-api-key': GEMINI_API_KEY, // required by Gemini
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                { text: messagesFinal }
+              ]
+            }
+          ]
+        }),
+      }
+    );
 
-    // const data = await apiResponse.json();
-    res.json(messagesFinal);
+    const data = await apiResponse.json();
+    res.json(data);
   } catch (err) {
     console.error('Gemini API error:', err);
     res.status(500).json({ error: 'Error communicating with Gemini API' });
