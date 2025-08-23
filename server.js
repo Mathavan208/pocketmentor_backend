@@ -63,7 +63,48 @@ app.post('/api/gemini/chat', async (req, res) => {
     res.status(500).json({ error: 'Error communicating with Gemini API' });
   }
 });
+router.post("/api/send-certificate", async (req, res) => {
+  try {
+    const { email, pdfBase64, filename } = req.body;
 
+    if (!email || !pdfBase64) {
+      return res.status(400).json({ message: "Email and PDF are required" });
+    }
+
+    // Convert base64 PDF to Buffer
+    const pdfBuffer = Buffer.from(pdfBase64.split(",")[1], "base64");
+
+    // Configure nodemailer (using Gmail example, you can use other SMTP)
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS, // Use App Password if 2FA enabled
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Your Course Certificate",
+      text: "Congratulations! Please find your course completion certificate attached.",
+      attachments: [
+        {
+          filename: filename || "certificate.pdf",
+          content: pdfBuffer,
+          contentType: "application/pdf",
+        },
+      ],
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.json({ success: true, message: "Certificate sent via email" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Failed to send email" });
+  }
+});
 // Define Routes
 app.use('/api/users', require('./routes/auth'));
 app.use('/api/courses', require('./routes/courses'));
