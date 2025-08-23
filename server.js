@@ -64,7 +64,7 @@ app.post('/api/gemini/chat', async (req, res) => {
     res.status(500).json({ error: 'Error communicating with Gemini API' });
   }
 });
-router.post("/api/send-certificate", async (req, res) => {
+app.post("/api/send-certificate", async (req, res) => {
   try {
     const { email, pdfBase64, filename } = req.body;
 
