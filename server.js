@@ -6,9 +6,7 @@ const connectDB = require('./config/db');
 
 // Load environment variables
 dotenv.config();
-app.use(express.json({ limit: "10mb" })); 
-app.use(express.urlencoded({ limit: "10mb", extended: true }));
-// Connect to database
+
 connectDB();
 
 const app = express();
@@ -17,7 +15,9 @@ const allowedOrigins = [
   'http://localhost:5173', // for local dev
   'https://pocketmentor-frontend.onrender.com' // deployed frontend
 ];
-
+app.use(express.json({ limit: "10mb" })); 
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
+// Connect to database
 app.use(cors({
   origin: allowedOrigins,
   credentials: true
