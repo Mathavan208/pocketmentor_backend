@@ -96,7 +96,7 @@ exports.deleteCourse = async (req, res) => {
       res.status(404).json({ message: 'Course not found' });
     }
   } catch (error) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Server error',course:course });
   }
 };
 
